@@ -1,0 +1,86 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    name: dpaas-uploadfile
+  name: dpaas-uploadfile
+  namespace: serving
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: dpaas-uploadfile
+  template:
+    metadata:
+      labels:
+        app: dpaas-uploadfile
+    spec:
+      containers:
+      - name: dpaas-uploadfile
+        image: laeeq/uploadfile:0.0.5
+        imagePullPolicy: Always
+        env:
+        - name: CORS_URL
+          value: ptpaas-dpass.k8s-prod.pharmb.io
+        ports:
+        - containerPort: 9000
+          protocol: TCP
+        resources:
+          limits:
+            memory: 1536Mi
+          requests:
+            memory: 256Mi
+        securityContext:
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dpaas-uploadfile
+  labels:
+    app: dpaas-uploadfile
+  namespace: serving
+spec:
+  ports:
+  - name: web
+    port: 80
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: dpaas-uploadfile
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  labels:
+    app: dpaas-uploadfile
+  name: dpaas-uploadfile
+  namespace: serving
+spec:
+  rules:
+  - host: uploadfile-dpass.k8s-prod.pharmb.io
+    http:
+      paths:
+      - backend:
+          serviceName: dpaas-uploadfile
+          servicePort: 80
+        path: /
+  tls:
+    - secretName: dpaas-uploadfile-ingress-tls
+      hosts:
+        - uploadfile-dpass.k8s-prod.pharmb.io
+  
+
+
