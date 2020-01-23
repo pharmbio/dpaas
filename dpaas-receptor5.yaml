@@ -1,0 +1,92 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    name: dpaas-receptor5
+  name: dpaas-receptor5
+  namespace: serving
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: dpaas-receptor5
+  template:
+    metadata:
+      labels:
+        app: dpaas-receptor5
+    spec:
+      containers:
+      - env:
+        - name: MARIADB_IP
+          value: "dpaas-mariadb.serving.svc.cluster.local"
+        - name: MARIADB_PASSWORD
+          value: mariadb_root
+        - name: CORS_URL
+          value: "https://ptpaas-dpass.k8s-prod.pharmb.io"
+        - name: RECEPTOR_NAME
+          value: 'COX2'
+        - name: RECEPTOR_PDBCODE
+          value: '3LN1'
+        name: receptor5
+        image: laeeq/cpvsapi:3LN1-0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9000
+          protocol: TCP
+        resources:
+          limits:
+            memory: 1536Mi
+          requests:
+            memory: 256Mi
+        securityContext:
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dpaas-receptor5
+  labels:
+    app: dpaas-receptor5
+  namespace: serving
+spec:
+  ports:
+  - name: web
+    port: 80
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: dpaas-receptor5
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  labels:
+    app: dpaas-receptor5
+  name: dpaas-receptor5
+  namespace: serving
+spec:
+  rules:
+  - host: receptor5-dpass.k8s-prod.pharmb.io
+    http:
+      paths:
+      - backend:
+          serviceName: dpaas-receptor5
+          servicePort: 80
+        path: /
+  tls:
+    - secretName: dpaas-receptor5-ingress-tls
+      hosts:
+        - receptor5-dpass.k8s-prod.pharmb.io
