@@ -1,7 +1,7 @@
 # dpaas
-
+Kubernetes deployment yaml
 ```
-#!/bin/bash
+# Deploy
 kubectl apply -f dpaas-mariadb.yaml
 kubectl apply -f dpaas-receptor1.yaml
 kubectl apply -f dpaas-receptor2.yaml
