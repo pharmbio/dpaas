@@ -35,10 +35,17 @@ spec:
         securityContext:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        volumeMounts:
+          - mountPath: /var/lib/mysql/data
+            name: mariadb-data
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext:
       terminationGracePeriodSeconds: 30
+      volumes:
+      - name: mariadb-data
+        persistentVolumeClaim:
+          claimName: dpaas-mariadb-pvc
 ---
 apiVersion: v1
 kind: Service

@@ -27,11 +27,11 @@ spec:
         - name: CORS_URL
           value: "https://ptpaas-dpass.k8s-prod.pharmb.io"
         - name: RECEPTOR_NAME
-          value: 'HIV_RT'
+          value: 'ACETYLCHOLINESTERASE'
         - name: RECEPTOR_PDBCODE
           value: '1E66'
         name: receptor1
-        image: laeeq/cpvsapi:1B8O-0.0.1 #laeeq/cpvsapi:1RT2-0.0.1
+        image: laeeq/cpvsapi:1RT2-0.0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
