@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: CORS_URL
-          value: ptpaas-dpass.k8s-prod.pharmb.io
+          value: ptpaas.service.pharmb.io
         ports:
         - containerPort: 9000
           protocol: TCP

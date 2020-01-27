@@ -25,7 +25,7 @@ spec:
         - name: MARIADB_PASSWORD
           value: mariadb_root
         - name: CORS_URL
-          value: "https://ptpaas-dpass.k8s-prod.pharmb.io"
+          value: "https://ptpaas.service.pharmb.io"
         - name: RECEPTOR_NAME
           value: 'CARBONIC ANHYDRASE 2'
         - name: RECEPTOR_PDBCODE

@@ -23,12 +23,12 @@ spec:
           postStart:
             exec:
               # Replace url in index.html
-              command: ["/bin/sh", "-c", "sed -i 's/http:/https:/g' /usr/local/apache2/htdocs/index.html; sed -i 's/apps\\.osdev/k8s\\-prod/g' /usr/local/apache2/htdocs/index.html"]
-        image: laeeq/cpvs-ui:0.0.2
+              command: ["/bin/sh", "-c", "sed -i 's/http:/https:/g' /usr/local/apache2/htdocs/index.html; sed -i 's/apps\\.osdev/k8s\\-prod/g' /usr/local/apache2/htdocs/index.html; chown -R www-data:www-data /usr/local/apache2"]
+        image: laeeq/cpvs-ui:0.0.4
         imagePullPolicy: Always
         env:
         - name: CORS_URL
-          value: ptpaas-dpass.k8s-prod.pharmb.io
+          value: ptpaas.service.pharmb.io
         ports:
         - containerPort: 80
           protocol: TCP
@@ -75,7 +75,7 @@ metadata:
   namespace: serving
 spec:
   rules:
-  - host: ptpaas-dpass.k8s-prod.pharmb.io
+  - host: ptpaas.service.pharmb.io
     http:
       paths:
       - backend:
@@ -85,7 +85,7 @@ spec:
   tls:
     - secretName: dpaas-cpvs-ui-ingress-tls
       hosts:
-        - ptpaas-dpass.k8s-prod.pharmb.io
+        - ptpaas.service.pharmb.io
   
 
 
