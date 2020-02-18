@@ -36,4 +36,5 @@ kubectl delete -f dpaas-receptor6.yaml
 kubectl delete -f dpaas-receptor7.yaml
 kubectl delete -f dpaas-uploadfile.yaml
 kubectl delete -f dpaas-cpvs-ui.yaml
+kubectl delete -f dpaas-pv-pvc.yaml
 ```
