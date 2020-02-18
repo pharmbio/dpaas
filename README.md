@@ -1,5 +1,5 @@
 # dpaas
-This is the Kubernetes yaml for a complete deployment of the dpaas service
+This is the Kubernetes yaml for a complete deployment of the dpaas service https://ptpaas.service.pharmb.io/
 
 ## Deploy
 ```
@@ -37,4 +37,3 @@ kubectl delete -f dpaas-receptor7.yaml
 kubectl delete -f dpaas-uploadfile.yaml
 kubectl delete -f dpaas-cpvs-ui.yaml
 ```
-URL: https://ptpaas.service.pharmb.io/
