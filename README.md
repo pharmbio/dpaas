@@ -37,4 +37,4 @@ kubectl delete -f dpaas-receptor7.yaml
 kubectl delete -f dpaas-uploadfile.yaml
 kubectl delete -f dpaas-cpvs-ui.yaml
 ```
-URL: https://ptpaas-dpass.k8s-prod.pharmb.io/
+URL: https://ptpaas.service.pharmb.io/
