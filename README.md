@@ -1,4 +1,4 @@
-# dpaas
+# Kubernetes deployment of ptdpaas
 This is the Kubernetes yaml for a complete deployment of the dpaas service https://ptpaas.service.pharmb.io/
 
 ## Deploy
